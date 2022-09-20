@@ -1,39 +1,36 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { RecipeDto } from './dto/recipe.dto';
 import { Recipe } from './entity/recipe';
-import { v4 } from 'uuid';
 
 @Injectable()
 export class RecipeService {
+  constructor(
+    @InjectRepository(Recipe) private recipeRepository: Repository<Recipe>,
+  ) { }
 
-    private _recipes: Recipe[] = [];
+  async getRecipes(): Promise<Recipe[]> {
+    return this.recipeRepository.find();
+  }
 
-    async getRecipes(): Promise<Recipe[]> {
-        return this._recipes;
+  async getRecipe(id: string): Promise<Recipe> {
+    const recipe = await this.recipeRepository.findOne({ where: { id } });
+    if (!recipe) {
+      throw new HttpException('No entity found', HttpStatus.NOT_FOUND);
     }
+    return recipe;
+  }
 
-    async getRecipe(id: string): Promise<Recipe> {
-        const recipe = this._recipes.find(r => r.id === id);
-        if (!recipe) {
-            throw new HttpException('NotFound', HttpStatus.NOT_FOUND);
-        }
-        return recipe;
-    }
+  async createRecipe(recipeDto: RecipeDto): Promise<void> {
+    await this.recipeRepository.save({ ...recipeDto });
+  }
 
-    async createRecipe(recipe: RecipeDto): Promise<void> {
-        const recipeEntity = { ...recipe, id: v4() };
-        this._recipes.push(recipeEntity);
-    }
+  async updateDescription(id: string, description: string): Promise<void> {
+    await this.recipeRepository.update({ id }, { description });
+  }
 
-    async updateDescription(id: string, description: string): Promise<void> {
-        const recipeIndex = this._recipes.findIndex(r => r.id === id);
-        if (recipeIndex < 0) {
-            throw new HttpException('NotFound', HttpStatus.NOT_FOUND);
-        }
-        this._recipes[recipeIndex] = { ...this._recipes[recipeIndex], description };
-    }
-
-    async deleteRecipe(id: string): Promise<void> {
-        this._recipes = this._recipes.filter(r => r.id !== id);
-    }
+  async deleteRecipe(id: string): Promise<void> {
+    await this.recipeRepository.delete({ id });
+  }
 }

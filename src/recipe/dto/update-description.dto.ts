@@ -1,3 +1,3 @@
 export class UpdatedescriptionDto {
-    description: string;
+  description: string;
 }
