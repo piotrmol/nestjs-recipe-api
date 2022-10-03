@@ -15,7 +15,7 @@ export class RecipeService {
   }
 
   async getRecipe(id: string): Promise<Recipe> {
-    const recipe = this.recipeRepository.findOne({ where: { id } });
+    const recipe = await this.recipeRepository.findOne({ where: { id } });
     if (!recipe) {
       throw new HttpException('No entity found', HttpStatus.NOT_FOUND);
     }

@@ -28,7 +28,7 @@ export class RecipeController {
   }
 
   @Post()
-  async createRecipe(@Body(new ValidationPipe()) recipeDto: RecipeDto) {
+  async createRecipe(@Body() recipeDto: RecipeDto) {
     return await this.recipeService.createRecipe(recipeDto);
   }
 
