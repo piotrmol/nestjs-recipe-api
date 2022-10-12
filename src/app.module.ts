@@ -10,7 +10,7 @@ import { RecipeModule } from './recipe/recipe.module';
     ConfigModule.forRoot({ isGlobal: true, validate }),
     RecipeModule,
     TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
+      inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
         host: configService.get<string>('DB_HOST'),
@@ -19,10 +19,9 @@ import { RecipeModule } from './recipe/recipe.module';
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_NAME'),
         entities: [Recipe, Ingredient],
-        synchronize: configService.get<boolean>('DB_SYNCHRONIZATION'),
+        synchronize: false,
         logging: configService.get<boolean>('DB_LOGGING'),
       }),
-      inject: [ConfigService],
     }),
   ],
   controllers: [],
