@@ -7,6 +7,7 @@ import {
   Patch,
   Delete,
   ParseUUIDPipe,
+  Request,
 } from '@nestjs/common';
 import { RecipeDto } from './dto/recipe.dto';
 import { UpdatedescriptionDto } from './dto/update-description.dto';
@@ -27,16 +28,19 @@ export class RecipeController {
   }
 
   @Post()
-  async createRecipe(@Body() recipeDto: RecipeDto) {
-    return await this.recipeService.createRecipe(recipeDto);
+  async createRecipe(@Body() recipeDto: RecipeDto, @Request() req) {
+    const { sub } = req.user;
+    return await this.recipeService.createRecipe(recipeDto, sub);
   }
 
   @Patch('/:id')
   async updateDescription(
     @Body() { description }: UpdatedescriptionDto,
     @Param('id', new ParseUUIDPipe()) id: string,
+    @Request() req,
   ) {
-    return await this.recipeService.updateDescription(id, description);
+    const { sub } = req.user;
+    return await this.recipeService.updateDescription(id, description, sub);
   }
 
   @Delete('/:id')

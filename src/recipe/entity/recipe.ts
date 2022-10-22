@@ -1,3 +1,4 @@
+import { User } from 'src/auth/entity/User';
 import {
   Column,
   Entity,
@@ -20,6 +21,9 @@ export class Recipe {
     eager: true,
   })
   ingredients: Ingredient[];
+
+  @ManyToOne(() => User, (user) => user.recipes)
+  user: User;
 }
 
 @Entity({ name: 'ingredient' })
