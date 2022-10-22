@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { validate } from './config/env.validation';
 import { Ingredient, Recipe } from './recipe/entity/recipe';
 import { RecipeModule } from './recipe/recipe.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { RecipeModule } from './recipe/recipe.module';
         logging: configService.get<boolean>('DB_LOGGING'),
       }),
     }),
+    AuthModule,
   ],
   controllers: [],
   providers: [],
