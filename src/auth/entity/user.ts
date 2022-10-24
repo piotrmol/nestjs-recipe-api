@@ -1,7 +1,7 @@
 import { Recipe } from 'src/recipe/entity/recipe';
 import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 
-export enum Role {
+export enum UserRole {
   USER = 'user',
   ADMIN = 'admin',
 }
@@ -14,9 +14,9 @@ export class User {
   @Column({ nullable: false })
   password: string;
 
-  @Column({ type: 'varchar', default: Role.USER })
-  role: Role;
+  @Column({ type: 'varchar', default: UserRole.USER, name: 'userRole' })
+  role: UserRole;
 
   @OneToMany(() => Recipe, (recipe) => recipe.user)
-  recipes: Recipe;
+  recipes: Recipe[];
 }

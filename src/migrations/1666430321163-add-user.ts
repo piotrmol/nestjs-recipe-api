@@ -1,4 +1,4 @@
-import { Role } from 'src/auth/entity/User';
+import { UserRole } from 'src/auth/entity/User';
 import {
   MigrationInterface,
   QueryRunner,
@@ -25,11 +25,11 @@ export class addUser1666430321163 implements MigrationInterface {
             isNullable: false,
           },
           {
-            name: 'password',
+            name: 'userRole',
             type: 'varchar',
             isNullable: false,
-            enum: [...Object.values(Role)],
-            default: Role.USER,
+            enum: [...Object.values(UserRole)],
+            default: UserRole.USER,
           },
         ],
       }),
@@ -38,7 +38,7 @@ export class addUser1666430321163 implements MigrationInterface {
     await queryRunner.addColumn(
       'recipe',
       new TableColumn({
-        name: 'userId',
+        name: 'userEmail',
         type: 'varchar',
       }),
     );
@@ -46,7 +46,7 @@ export class addUser1666430321163 implements MigrationInterface {
     await queryRunner.createForeignKey(
       'recipe',
       new TableForeignKey({
-        columnNames: ['userId'],
+        columnNames: ['userEmail'],
         referencedColumnNames: ['email'],
         referencedTableName: 'user',
       }),
@@ -56,11 +56,11 @@ export class addUser1666430321163 implements MigrationInterface {
   public async down(queryRunner: QueryRunner): Promise<void> {
     const table = await queryRunner.getTable('recipe');
     const foreignKey = table.foreignKeys.find(
-      (fk) => fk.columnNames.indexOf('userId') !== -1,
+      (fk) => fk.columnNames.indexOf('userEmail') !== -1,
     );
 
     await queryRunner.dropForeignKey('recipe', foreignKey);
-    await queryRunner.dropColumn('recipe', 'userId');
+    await queryRunner.dropColumn('recipe', 'userEmail');
     await queryRunner.dropTable('user');
   }
 }

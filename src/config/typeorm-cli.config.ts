@@ -3,6 +3,8 @@ import { ConfigService } from '@nestjs/config';
 import { config } from 'dotenv';
 import { Ingredient, Recipe } from 'src/recipe/entity/recipe';
 import { initialSchema1665490266140 } from 'src/migrations/1665490266140-initial-schema';
+import { User } from 'src/auth/entity/User';
+import { addUser1666430321163 } from 'src/migrations/1666430321163-add-user';
 
 config();
 
@@ -16,6 +18,6 @@ export default new DataSource({
   password: configService.get<string>('DB_PASSWORD'),
   database: configService.get<string>('DB_NAME'),
   logging: configService.get<boolean>('DB_LOGGING'),
-  entities: [Recipe, Ingredient],
-  migrations: [initialSchema1665490266140],
+  entities: [Recipe, Ingredient, User],
+  migrations: [initialSchema1665490266140, addUser1666430321163],
 });
