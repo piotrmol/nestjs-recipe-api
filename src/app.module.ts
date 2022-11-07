@@ -5,7 +5,7 @@ import { validate } from './config/env.validation';
 import { Ingredient, Recipe } from './recipe/entity/recipe';
 import { RecipeModule } from './recipe/recipe.module';
 import { AuthModule } from './auth/auth.module';
-import { User } from './auth/entity/User';
+import { User } from './auth/entity/user';
 
 @Module({
   imports: [

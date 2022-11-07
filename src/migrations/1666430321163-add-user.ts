@@ -1,4 +1,4 @@
-import { UserRole } from 'src/auth/entity/User';
+import { UserRole } from 'src/auth/entity/user';
 import {
   MigrationInterface,
   QueryRunner,

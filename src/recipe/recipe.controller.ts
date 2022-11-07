@@ -11,7 +11,7 @@ import {
   Request,
 } from '@nestjs/common';
 import { Role } from 'src/auth/decorators/role';
-import { UserRole } from 'src/auth/entity/User';
+import { UserRole } from 'src/auth/entity/user';
 import { AccessTokenGuard } from 'src/auth/guard/access-token.guard';
 import { RoleGuard } from 'src/auth/guard/authorization.guard';
 import { RecipeDto } from './dto/recipe.dto';

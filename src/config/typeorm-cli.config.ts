@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { config } from 'dotenv';
 import { Ingredient, Recipe } from 'src/recipe/entity/recipe';
 import { initialSchema1665490266140 } from 'src/migrations/1665490266140-initial-schema';
-import { User } from 'src/auth/entity/User';
+import { User } from 'src/auth/entity/user';
 import { addUser1666430321163 } from 'src/migrations/1666430321163-add-user';
 
 config();
