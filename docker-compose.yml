@@ -14,6 +14,8 @@ services:
     restart: always
     depends_on:
       - postgres
+    networks:
+      - app
     ports:
       - 8080:8080
   recipe-dev:

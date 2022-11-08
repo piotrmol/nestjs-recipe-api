@@ -1,7 +1,7 @@
-#COMMON
 ARG IMAGE=node:16.13-alpine
-FROM $IMAGE as builder
 
+#COMMON
+FROM $IMAGE as builder
 WORKDIR /app
 COPY . .
 RUN npm i
@@ -21,7 +21,7 @@ COPY --chown=node:node --from=prod-build /app/dist /app/dist
 COPY --chown=node:node --from=prod-build /app/node_modules /app/node_modules
 COPY --chown=node:node --from=prod-build /app/.env /app/dist/.env
 
-ENV NODE_ENV production
+ENV NODE_ENV=production
 ENTRYPOINT ["node", "./main.js"]
 WORKDIR /app/dist
 CMD [""]
