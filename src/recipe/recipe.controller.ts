@@ -9,8 +9,11 @@ import {
   ParseUUIDPipe,
   UseGuards,
   Request,
+  UseInterceptors,
+  UploadedFile,
   UseFilters,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { Role } from 'src/auth/decorators/role';
 import { UserRole } from 'src/auth/entity/user';
 import { AccessTokenGuard } from 'src/auth/guard/access-token.guard';
@@ -58,5 +61,12 @@ export class RecipeController {
   @Delete('/:id')
   async deleteRecipe(@Param('id', new ParseUUIDPipe()) id: string) {
     return await this.recipeService.deleteRecipe(id);
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @UseInterceptors(FileInterceptor('recipe'))
+  @Patch('/:id/upload-file')
+  async addImageToRecipe(@UploadedFile() file) {
+    console.log(file);
   }
 }

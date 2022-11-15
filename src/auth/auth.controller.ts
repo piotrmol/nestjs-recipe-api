@@ -1,10 +1,4 @@
-import {
-  Body,
-  Controller,
-  HttpException,
-  Post,
-  UseFilters,
-} from '@nestjs/common';
+import { Body, Controller, Post, UseFilters } from '@nestjs/common';
 import { HttpExceptionFilter } from 'src/global-filters/http-exception.filter';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';

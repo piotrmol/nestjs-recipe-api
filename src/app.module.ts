@@ -6,6 +6,7 @@ import { Ingredient, Recipe } from './recipe/entity/recipe';
 import { RecipeModule } from './recipe/recipe.module';
 import { AuthModule } from './auth/auth.module';
 import { User } from './auth/entity/user';
+import { AwsS3Module } from './aws-s3/s3.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { User } from './auth/entity/user';
       }),
     }),
     AuthModule,
+    AwsS3Module,
   ],
   controllers: [],
   providers: [],

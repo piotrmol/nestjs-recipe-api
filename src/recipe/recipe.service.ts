@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/auth/entity/user';
+import { S3Service } from 'src/aws-s3/s3.service';
 import { Repository } from 'typeorm';
 import { RecipeDto } from './dto/recipe.dto';
 import { Recipe } from './entity/recipe';
@@ -10,6 +11,7 @@ export class RecipeService {
   constructor(
     @InjectRepository(Recipe) private recipeRepository: Repository<Recipe>,
     @InjectRepository(User) private userRepository: Repository<User>,
+    private s3Service: S3Service,
   ) {}
 
   async getRecipes(): Promise<Recipe[]> {

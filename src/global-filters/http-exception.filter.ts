@@ -24,7 +24,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
     this.logger.error(`Exception: ${exception.message}, status: ${status}`);
 
-    response.status(status).json(
+    return response.status(status).json(
       isProduction
         ? {
             statusCode: status,
