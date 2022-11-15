@@ -5,6 +5,7 @@ import { S3Service } from 'src/aws-s3/s3.service';
 import { Repository } from 'typeorm';
 import { RecipeDto } from './dto/recipe.dto';
 import { Recipe } from './entity/recipe';
+import { Express } from 'express';
 
 @Injectable()
 export class RecipeService {
@@ -55,5 +56,23 @@ export class RecipeService {
 
   async deleteRecipe(id: string): Promise<void> {
     await this.recipeRepository.delete({ id });
+  }
+
+  async addFileTorecipe(file: Express.Multer.File, id: string, email: string) {
+    const recipe = await this.recipeRepository.findOneOrFail({
+      where: { id },
+      relations: ['user'],
+    });
+
+    if (recipe.user.email !== email) {
+      throw new HttpException(
+        "You cannot update recipe. It's  not yours!",
+        400,
+      );
+    }
+    const bucketKey = `${file.fieldname}${Date.now()}`;
+    const fileUrl = await this.s3Service.uploadFile(file, bucketKey);
+
+    await this.recipeRepository.update({ id }, { image: fileUrl });
   }
 }

@@ -22,6 +22,7 @@ import { HttpExceptionFilter } from 'src/global-filters/http-exception.filter';
 import { RecipeDto } from './dto/recipe.dto';
 import { UpdatedescriptionDto } from './dto/update-description.dto';
 import { RecipeService } from './recipe.service';
+import { Express } from 'express';
 
 @UseFilters(HttpExceptionFilter)
 @Controller('recipe')
@@ -64,9 +65,15 @@ export class RecipeController {
   }
 
   @UseGuards(AccessTokenGuard)
-  @UseInterceptors(FileInterceptor('recipe'))
-  @Patch('/:id/upload-file')
-  async addImageToRecipe(@UploadedFile() file) {
+  @UseInterceptors(FileInterceptor('file'))
+  @Post('/:id/upload-file')
+  async addImageToRecipe(
+    @UploadedFile() file: Express.Multer.File,
+    @Param('id', new ParseUUIDPipe()) id: string,
+    @Request() req,
+  ) {
     console.log(file);
+    const { sub: email } = req.user;
+    await this.recipeService.addFileTorecipe(file, id, email);
   }
 }
