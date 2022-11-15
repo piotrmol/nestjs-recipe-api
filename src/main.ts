@@ -13,10 +13,7 @@ async function bootstrap() {
   const port = configService.get<string>('APP_PORT');
   const httpAdapterHost = app.get(HttpAdapterHost);
 
-  app.useGlobalFilters(
-    new HttpExceptionFilter(configService),
-    new AllExceptionsFilter(httpAdapterHost),
-  );
+  app.useGlobalFilters(new AllExceptionsFilter(httpAdapterHost));
 
   await app.listen(port);
 }
