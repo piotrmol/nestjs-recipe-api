@@ -24,6 +24,9 @@ export class Recipe {
 
   @ManyToOne(() => User, (user) => user.recipes)
   user: User;
+
+  @Column()
+  image?: string;
 }
 
 @Entity({ name: 'ingredient' })
